@@ -1,9 +1,7 @@
 """Count the number of primes below a given bound.
 """
-import taichi as ti
-ti.init()
+benchmark = True
 
-@ti.func
 def is_prime(n: int):
     result = True
     for k in range(2, int(n ** 0.5) + 1):
@@ -12,7 +10,6 @@ def is_prime(n: int):
             break
     return result
 
-@ti.kernel
 def count_primes(n: int) -> int:
     count = 0
     for k in range(2, n):
@@ -21,4 +18,15 @@ def count_primes(n: int) -> int:
 
     return count
 
+
+if benchmark:
+    import taichi as ti
+    ti.init()
+    is_prime = ti.func(is_prime)
+    count_primes = ti.kernel(count_primes)
+
+
+import time
+start = time.perf_counter()
 print(count_primes(10000000))
+print(f"time elapsed: {time.perf_counter() - start}/s")
