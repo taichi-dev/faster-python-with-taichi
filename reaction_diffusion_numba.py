@@ -4,7 +4,7 @@ import numba
 import matplotlib.pyplot as plt
 
 n = 400
-Du, Dv, F, k = 0.16, 0.08, 0.035, 0.065
+Du, Dv, F, k = 0.160, 0.080, 0.060, 0.062
 
 Z = np.zeros((n+2, n+2), [('U', np.double),
                           ('V', np.double)])
