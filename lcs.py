@@ -4,7 +4,7 @@ import time
 
 ti.init(arch=ti.cpu)
 
-benchmark = True
+benchmark = False
 
 N = 15000
 
@@ -42,10 +42,14 @@ def compute_lcs_numpy(a, b) -> int:
 
     return f_numpy[len_a, len_b]
 
-t0 = time.perf_counter()
-print(compute_lcs(a_numpy, b_numpy))
-t1 = time.perf_counter()
-print(f"Time cost using Taichi: {t1 - t0}s")
-print(compute_lcs_numpy(a_numpy, b_numpy))
-t2 = time.perf_counter()
-print(f"Time cost using NumPy: {t2 - t1}s")
+
+if benchmark:
+    t0 = time.perf_counter()
+    print(compute_lcs(a_numpy, b_numpy))
+    t1 = time.perf_counter()
+    print(f"Time cost using Taichi: {t1 - t0}s")
+    print(compute_lcs_numpy(a_numpy, b_numpy))
+    t2 = time.perf_counter()
+    print(f"Time cost using NumPy: {t2 - t1}s")
+else:
+    print(compute_lcs(a_numpy, b_numpy))
