@@ -2,9 +2,10 @@
 """
 use_taichi = True  # set False to use native python
 
+
 def is_prime(n: int):
     result = True
-    for k in range(2, int(n ** 0.5) + 1):
+    for k in range(2, int(n**0.5) + 1):
         if n % k == 0:
             result = False
             break
@@ -26,8 +27,8 @@ if use_taichi:
     is_prime = ti.func(is_prime)
     count_primes = ti.kernel(count_primes)
 
-
 import time
+
 info = "use taichi" if use_taichi else "use python"
 start = time.perf_counter()
 print(count_primes(10000000))

@@ -1,6 +1,7 @@
 import numpy as np
 import taichi as ti
 import taichi.math as tm
+
 ti.init(arch=ti.vulkan)
 
 W, H = 800, 480
@@ -16,7 +17,7 @@ uv_grid[0, rand_rows, rand_cols, 1] = 1.0
 uv = ti.Vector.field(2, ti.f32, shape=(2, W, H))
 uv.from_numpy(uv_grid)
 
-palette = ti.Vector.field(4, ti.f32, shape=(5,))
+palette = ti.Vector.field(4, ti.f32, shape=(5, ))
 #palette[0] = [0, 0, 0, 0]  # [0.0, 0.0, 0.0, 0.31372549]
 #palette[1] = [0, 1, 0, 0.2]  # [1.0, 0.1843, 0.53333333, 0.376470588]
 #palette[2] = [1.0, 1.0, 0.0, 0.2078431373]  # [0.854901961, 1.0, 0.5333333, 0.3882353]
@@ -33,7 +34,8 @@ palette[4] = [1.0, 1.0, 1.0, 1]
 def compute(phase: int):
     for i, j in ti.ndrange(W, H):
         cen = uv[phase, i, j]
-        lapl = uv[phase, i + 1, j] + uv[phase, i, j + 1] + uv[phase, i - 1, j] + uv[phase, i, j - 1] - 4.0 * cen
+        lapl = uv[phase, i + 1, j] + uv[phase, i, j + 1] + uv[
+            phase, i - 1, j] + uv[phase, i, j - 1] - 4.0 * cen
         du = Du * lapl[0] - cen[0] * cen[1] * cen[1] + feed * (1 - cen[0])
         dv = Dv * lapl[1] + cen[0] * cen[1] * cen[1] - (feed + kill) * cen[1]
         val = cen + 0.5 * tm.vec2(du, dv)
