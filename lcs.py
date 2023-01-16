@@ -26,8 +26,8 @@ def compute_lcs(a: ti.types.ndarray(), b: ti.types.ndarray()) -> ti.i32:
     ti.loop_config(serialize=True)
     for i in range(1, len_a + 1):
         for j in range(1, len_b + 1):
-            f[i, j] = max(f[i - 1, j - 1] + (a[i - 1] == b[j - 1]),
-                          max(f[i - 1, j], f[i, j - 1]))
+            f[i, j] = ti.max(f[i - 1, j - 1] + (a[i - 1] == b[j - 1]),
+                          ti.max(f[i - 1, j], f[i, j - 1]))
 
     return f[len_a, len_b]
 
